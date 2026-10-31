@@ -1,0 +1,15 @@
+{
+  "name": "Hafalan Al-Baqarah Utsmani",
+  "short_name": "Al-Baqarah",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f0f4f8",
+  "theme_color": "#1b4332",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3257/3257973.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
