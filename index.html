@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Hafalan Quran Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0f3d2e">
 <style>
 *{box-sizing:border-box}
 :root{--green:#0f3d2e;--green2:#1a7a4c;--mint:#e8f5e9;--mint-b:#a5d6a7;--blue:#e3f2fd;--blue-b:#90caf9;--bg:#f6faf7}
@@ -19,8 +21,8 @@ body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradi
 .stat{flex:1;background:#fff;border:1px solid #e7efe8;border-radius:16px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 18px rgba(15,61,46,.06)}
 .stat b{font-size:18px}
 .stat span{font-size:10px;opacity:.7}
-.grid{padding:0 12px 90px;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;direction:rtl}
-.card{border-radius:20px;padding:10px 10px 8px;position:relative;cursor:pointer;min-height:92px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 8px 20px rgba(0,0,0,.06);transition:.2s;border:1.5px solid transparent;overflow:hidden}
+.grid{padding:0 12px 90px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px; direction:rtl}
+.card{border-radius:20px;padding:10px 10px 8px;position:relative;cursor:pointer;min-height:92px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 8px 20px rgba(0,0,0,.06);transition:.2s;border:3.5px solid transparent;overflow:hidden}
 .card.odd{background:linear-gradient(180deg,#ffffff 0%,#e8f5e9 100%);border-color:#c8e6c9}
 .card.even{background:linear-gradient(180deg,#ffffff 0%,#e3f2fd 100%);border-color:#bbdefb}
 .card.done{outline:2px solid #1a7a4c;outline-offset:1px}
@@ -29,6 +31,7 @@ body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradi
 .first{font-family:'Amiri',serif;font-weight:700;font-size:15px;direction:rtl;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;margin-top:6px}
 .check{position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;background:#1a7a4c;color:#fff;display:none;place-items:center;font-size:10px}
 .card.done .check{display:grid}
+/* GANTI INI */
 .modal-bg{
   position:fixed;inset:0;
   background:rgba(7,22,17,.45);
@@ -128,15 +131,16 @@ function navAyah(dir){let nn=currentFullNo+dir;let found="";let ok=false;for(let
 function closeFullModal(){document.getElementById('ayahFullModal').classList.remove('show');}
 function copyAyah(){let t=document.getElementById('fullArabic').innerText;let tr=document.getElementById('transText').innerText;let box=document.getElementById('transBox');let full=t;if(box.style.display!=='none'){full=t+"\n\nTerjemahan:\n"+tr;}navigator.clipboard.writeText(full).then(()=>alert('Ayat '+currentFullNo+' disalin Jo!'));}
 let sx=0;document.getElementById('modalContent').addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
-document.getElementById('modalContent').addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>60){if(dx<0)navPage(1);else navPage(-1);}},{passive:true});
+document.getElementById('modalContent').addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>60){if(dx<0)navPage(-1);else navPage(1);}},{passive:true});
 let fx=0;document.getElementById('ayahFullContent').addEventListener('touchstart',e=>{fx=e.touches[0].clientX;},{passive:true});
-document.getElementById('ayahFullContent').addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-fx;if(Math.abs(dx)>50){if(dx<0)navAyah(1);else navAyah(-1);}},{passive:true});
+document.getElementById('ayahFullContent').addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-fx;if(Math.abs(dx)>50){if(dx<0)navAyah(-1);else navAyah(1);}},{passive:true});
 document.getElementById('detailModal').addEventListener('click',e=>{if(e.target.id==='detailModal')closeModal();});
 document.getElementById('ayahFullModal').addEventListener('click',e=>{if(e.target.id==='ayahFullModal')closeFullModal();});
 autoDetect();
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}
+</script>
 </script>
 <script src="terjemah.js"></script>
 </body>
 </html>
-
-Jo iku modal halaman ubah posisi Nang tengah, Ojo nemen ngisor e
