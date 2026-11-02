@@ -1,15 +1,17 @@
 {
-  "name": "Hafalan Al-Baqarah Utsmani",
-  "short_name": "Al-Baqarah",
-  "start_url": "./index.html",
+  "name": "Hafalan Quran Premium",
+  "short_name": "Hafalan",
+  "description": "Hafalan Quran Kiri Biru Kanan Hijau",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#f0f4f8",
-  "theme_color": "#1b4332",
+  "background_color": "#f6faf7",
+  "theme_color": "#0f3d2e",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3257/3257973.png",
+      "src": "https://cdn-icons-png.flaticon.com/512/1702/1702593.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
