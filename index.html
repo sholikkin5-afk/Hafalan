@@ -52,8 +52,10 @@ body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradi
 .full-bg.show{display:flex}
 .full{background:#fff;border-radius:24px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .full-head{padding:16px 18px;background:linear-gradient(135deg,#0f3d2e,#2d8a5e);color:#fff;display:flex;justify-content:space-between;align-items:center}
-.full-body{padding:22px 18px;text-align:center;max-height:60vh;overflow:auto}
-.full-arab{font-family:'Amiri',serif;font-size:32px;line-height:1.9;direction:rtl;color:#0f3d2e;font-weight:700}
+.full-body{padding:22px 18px;text-align:center;max-height:60vh;overflow:auto;touch-action:none}
+.full-arab{font-family:'Amiri',serif;font-size:32px;line-height:1.9;direction:rtl;color:#0f3d2e;font-weight:700;transition:font-size 0.1s ease;user-select:none}
+.zoom-controls{display:flex;justify-content:center;gap:6px;margin-bottom:8px}
+.zoom-btn{background:#e8f5e9;border:1px solid #a5d6a7;color:#0f3d2e;width:28px;height:28px;border-radius:8px;font-weight:800;cursor:pointer;font-size:13px}
 .full-info{margin-top:12px;font-size:10px;color:#777;background:#f6f7f5;padding:8px 12px;border-radius:10px}
 .actions{display:flex;gap:8px;padding:12px 14px;border-top:1px solid #eee}
 .btn{flex:1;padding:12px;border:none;border-radius:12px;font-weight:800;font-size:12px;cursor:pointer}
@@ -71,7 +73,7 @@ body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradi
 <div class="stats"><div class="stat"><div><span>SURAT</span><br><b id="stSurat">0</b></div><div>📚</div></div><div class="stat"><div><span>SELESAI</span><br><b id="stDone">0</b></div><div>✅</div></div><div class="stat"><div><span>PROGRESS</span><br><b id="stProg">0%</b></div><div>🌿</div></div></div>
 <div class="grid" id="grid"></div>
 <div class="modal-bg" id="detailModal"><div class="sheet" id="modalContent"><div class="handle"></div><div class="sheet-head"><div style="flex:1;min-width:0"><h2 id="modalTitle"></h2><p id="modalSub"></p><div id="modalSplit" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px"></div></div><div style="display:flex;gap:6px;align-items:center;flex-shrink:0"><button class="btn btn-gray" style="width:36px" onclick="navPage(-1)">‹</button><button class="btn btn-gray" style="width:36px" onclick="navPage(1)">›</button><span style="cursor:pointer;font-size:22px;padding:4px" onclick="closeModal()">×</span></div></div><div class="list" id="modalAyahList"></div><div class="hint">SWIPE UNTUK GANTI HALAMAN</div></div></div>
-<div class="full-bg" id="ayahFullModal"><div class="full" id="ayahFullContent"><div class="full-head"><b id="fullTitle">Ayat</b><span style="cursor:pointer;font-size:22px" onclick="closeFullModal()">×</span></div><div class="full-body"><div class="full-arab" id="fullArabic"></div><div id="transBox" style="display:none;margin-top:16px;text-align:left;background:#f0f7f2;border:1px dashed #a5d6a7;border-radius:14px;padding:12px 14px"><div style="font-size:9px;font-weight:800;letter-spacing:1px;color:#2d6a4f;margin-bottom:6px">✦ TERJEMAHAN INDONESIA</div><div id="transText" style="font-size:13px;line-height:1.6;color:#1b4332">Memuat...</div></div><div class="full-info" id="fullInfo"></div></div><div class="actions"><button class="btn btn-green" id="transBtn" onclick="toggleTrans()">📖 Terjemahan</button><button class="btn btn-green" onclick="copyAyah()">📋 Salin</button><button class="btn btn-gray" onclick="closeFullModal()">Tutup</button></div><div class="hint">GESER KIRI/KANAN GANTI AYAT</div></div></div>
+<div class="full-bg" id="ayahFullModal"><div class="full" id="ayahFullContent"><div class="full-head"><b id="fullTitle">Ayat</b><span style="cursor:pointer;font-size:22px" onclick="closeFullModal()">×</span></div><div class="full-body"><div class="zoom-controls"><button class="zoom-btn" onclick="adjustZoom(-4)" title="Kecilkan">A-</button><button class="zoom-btn" onclick="resetZoom()" title="Reset">↺</button><button class="zoom-btn" onclick="adjustZoom(4)" title="Besarkan">A+</button></div><div class="full-arab" id="fullArabic"></div><div id="transBox" style="display:none;margin-top:16px;text-align:left;background:#f0f7f2;border:1px dashed #a5d6a7;border-radius:14px;padding:12px 14px"><div style="font-size:9px;font-weight:800;letter-spacing:1px;color:#2d6a4f;margin-bottom:6px">✦ TERJEMAHAN INDONESIA</div><div id="transText" style="font-size:13px;line-height:1.6;color:#1b4332">Memuat...</div></div><div class="full-info" id="fullInfo"></div></div><div class="actions"><button class="btn btn-green" id="transBtn" onclick="toggleTrans()">📖 Terjemahan</button><button class="btn btn-green" onclick="copyAyah()">📋 Salin</button><button class="btn btn-gray" onclick="closeFullModal()">Tutup</button></div><div class="hint">CUBIT LAYAR / PINCH-TO-ZOOM ATAU GESER KIRI/KANAN GANTI AYAT</div></div></div>
 <script>
 const daftarSurat={};window.registerSurat=(k,c)=>{daftarSurat[k]=c;}
 function detectLegacyBaqarah(){try{if(typeof baqarahData!=='undefined'&&typeof fullBaqarah!=='undefined'){if(!daftarSurat['baqarah']){daftarSurat['baqarah']={nama:"Al-Baqarah",data:baqarahData,full:fullBaqarah,startPage:Math.min(...Object.keys(baqarahData).map(Number)),endPage:Math.max(...Object.keys(baqarahData).map(Number)),storageKey:"baqarah_done"};return true;}}}catch(e){}return false;}
@@ -148,15 +150,77 @@ async function toggleTrans(){
   else throw 'no';
  }catch(e){txt.innerText='Gagal load online. Tambahkan terjemah.js untuk mode offline Jo.';}
 }
-function openFullAyah(no,shortText){currentFullNo=no;updateFullDisplay(no,shortText);document.getElementById('ayahFullModal').classList.add('show');document.getElementById('transBox').style.display='none';transVisible=false;document.getElementById('transBtn').innerText='📖 Terjemahan';}
+
+// ZOOM / CUBIT LAYAR (PINCH TO ZOOM) & TOMBOL ZOOM
+let currentFontSize = 32;
+function adjustZoom(amount){
+  currentFontSize = Math.min(maxFontSize, Math.max(minFontSize, currentFontSize + amount));
+  document.getElementById('fullArabic').style.fontSize = currentFontSize + 'px';
+}
+function resetZoom(){
+  currentFontSize = 32;
+  document.getElementById('fullArabic').style.fontSize = currentFontSize + 'px';
+}
+
+function openFullAyah(no,shortText){
+  currentFullNo=no;
+  currentFontSize=32; // Reset ukuran pas buka ayat baru
+  document.getElementById('fullArabic').style.fontSize = currentFontSize + 'px';
+  updateFullDisplay(no,shortText);
+  document.getElementById('ayahFullModal').classList.add('show');
+  document.getElementById('transBox').style.display='none';transVisible=false;document.getElementById('transBtn').innerText='📖 Terjemahan';
+}
 function updateFullDisplay(no,shortText){let full=(currentSurat.full&&currentSurat.full[no]&&currentSurat.full[no].length>5)?currentSurat.full[no]:shortText;document.getElementById('fullTitle').innerText=currentSurat.nama+' : '+no;document.getElementById('fullArabic').innerText=full;let pg=Object.keys(currentSurat.data).find(k=>currentSurat.data[k].ayats.some(a=>a.no===no))||'-';document.getElementById('fullInfo').innerText='Halaman '+pg+' • Ayat '+no;}
 function navAyah(dir){let nn=currentFullNo+dir;let found="";let ok=false;for(let k in currentSurat.data){let f=currentSurat.data[k].ayats.find(a=>a.no===nn);if(f){found=f.text;ok=true;break;}}if(!ok)return;currentFullNo=nn;updateFullDisplay(nn,found);document.getElementById('transBox').style.display='none';transVisible=false;document.getElementById('transBtn').innerText='📖 Terjemahan';}
 function closeFullModal(){document.getElementById('ayahFullModal').classList.remove('show');}
 function copyAyah(){let t=document.getElementById('fullArabic').innerText;let tr=document.getElementById('transText').innerText;let box=document.getElementById('transBox');let full=t;if(box.style.display!=='none'){full=t+"\n\nTerjemahan:\n"+tr;}navigator.clipboard.writeText(full).then(()=>alert('Ayat '+currentFullNo+' disalin Jo!'));}
+
+// Gestur Cubit Layar (Pinch to Zoom) & Swipe Ayat
+let initialPinchDistance = null;
+const minFontSize = 20;
+const maxFontSize = 64;
+const fullBodyEl = document.getElementById('ayahFullContent');
+
+fullBodyEl.addEventListener('touchstart', e => {
+  if(e.touches.length === 2){
+    initialPinchDistance = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+  } else if(e.touches.length === 1){
+    fx = e.touches[0].clientX;
+  }
+},{passive:true});
+
+fullBodyEl.addEventListener('touchmove', e => {
+  if(e.touches.length === 2 && initialPinchDistance !== null){
+    let currentDistance = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+    let diff = currentDistance - initialPinchDistance;
+    if(Math.abs(diff) > 10){
+      currentFontSize = Math.min(maxFontSize, Math.max(minFontSize, currentFontSize + (diff > 0 ? 1 : -1)));
+      document.getElementById('fullArabic').style.fontSize = currentFontSize + 'px';
+      initialPinchDistance = currentDistance;
+    }
+  }
+},{passive:true});
+
+fullBodyEl.addEventListener('touchend', e => {
+  if(e.touches.length < 2) initialPinchDistance = null;
+  if(e.changedTouches.length === 1 && initialPinchDistance === null){
+    let dx = e.changedTouches[0].clientX - fx;
+    if(Math.abs(dx) > 50){
+      if(dx < 0) navAyah(-1);
+      else navAyah(1);
+    }
+  }
+},{passive:true});
+
 let sx=0;document.getElementById('modalContent').addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
 document.getElementById('modalContent').addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>60){if(dx<0)navPage(-1);else navPage(1);}},{passive:true});
-let fx=0;document.getElementById('ayahFullContent').addEventListener('touchstart',e=>{fx=e.touches[0].clientX;},{passive:true});
-document.getElementById('ayahFullContent').addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-fx;if(Math.abs(dx)>50){if(dx<0)navAyah(-1);else navAyah(1);}},{passive:true});
+
 document.getElementById('detailModal').addEventListener('click',e=>{if(e.target.id==='detailModal')closeModal();});
 document.getElementById('ayahFullModal').addEventListener('click',e=>{if(e.target.id==='ayahFullModal')closeFullModal();});
 autoDetect();
