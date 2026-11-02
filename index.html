@@ -71,19 +71,19 @@ body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradi
 </style>
 </head>
 <body>
-<div class="header"><div class="brand"><div class="logo"></div><div><h1 id="appTitle">Memuat...</h1><p id="subtitle">PREMIUM HAFALAN</p></div></div><div class="select-wrap"><select id="suratSelector" class="surat-select" onchange="changeSurat(this.value)"></select></div></div>
-<div class="stats"><div class="stat"><div><span>SURAT</span><br><b id="stSurat">0</b></div><div></div></div><div class="stat"><div><span>SELESAI</span><br><b id="stDone">0</b></div><div></div></div><div class="stat"><div><span>PROGRESS</span><br><b id="stProg">0%</b></div><div></div></div></div>
+<div class="header"><div class="brand"><div class="logo">ق</div><div><h1 id="appTitle">Memuat...</h1><p id="subtitle">PREMIUM HAFALAN</p></div></div><div class="select-wrap"><select id="suratSelector" class="surat-select" onchange="changeSurat(this.value)"></select></div></div>
+<div class="stats"><div class="stat"><div><span>SURAT</span><br><b id="stSurat">0</b></div><div>📚</div></div><div class="stat"><div><span>SELESAI</span><br><b id="stDone">0</b></div><div>✅</div></div><div class="stat"><div><span>PROGRESS</span><br><b id="stProg">0%</b></div><div>🌿</div></div></div>
 <div class="grid" id="grid"></div>
-<div class="modal-bg" id="detailModal"><div class="sheet" id="modalContent"><div class="handle"></div><div class="sheet-head"><div style="flex:1;min-width:0"><h2 id="modalTitle"></h2><p id="modalSub"></p><div id="modalSplit" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px"></div></div><div style="display:flex;gap:6px;align-items:center;flex-shrink:0"><button class="btn btn-gray" style="width:36px" onclick="navPage(-1)">�</button><button class="btn btn-gray" style="width:36px" onclick="navPage(1)">�</button><span style="cursor:pointer;font-size:22px;padding:4px" onclick="closeModal()">�</span></div></div><div class="list" id="modalAyahList"></div><div class="hint">SWIPE UNTUK GANTI HALAMAN</div></div></div>
+<div class="modal-bg" id="detailModal"><div class="sheet" id="modalContent"><div class="handle"></div><div class="sheet-head"><div style="flex:1;min-width:0"><h2 id="modalTitle"></h2><p id="modalSub"></p><div id="modalSplit" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px"></div></div><div style="display:flex;gap:6px;align-items:center;flex-shrink:0"><button class="btn btn-gray" style="width:36px" onclick="navPage(-1)">‹</button><button class="btn btn-gray" style="width:36px" onclick="navPage(1)">›</button><span style="cursor:pointer;font-size:22px;padding:4px" onclick="closeModal()">×</span></div></div><div class="list" id="modalAyahList"></div><div class="hint">SWIPE UNTUK GANTI HALAMAN</div></div></div>
 
 <div class="full-bg" id="ayahFullModal">
   <div class="full" id="ayahFullContent">
     <div class="full-head">
       <div class="full-head-content">
         <b id="fullTitle">Ayat</b>
-        <span class="sub-info" id="fullSubHeader">Halaman � Ayat</span>
+        <span class="sub-info" id="fullSubHeader">Halaman • Ayat</span>
       </div>
-      <span style="cursor:pointer;font-size:22px" onclick="closeFullModal()">�</span>
+      <span style="cursor:pointer;font-size:22px" onclick="closeFullModal()">×</span>
     </div>
     <div class="full-body" id="fullBodyScroll">
       <div class="zoom-controls">
@@ -92,9 +92,9 @@ body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradi
 
 </div>
       <div class="full-arab" id="fullArabic"></div>
-      <div id="transBox" style="display:none;margin-top:16px;text-align:left;background:#f0f7f2;border:1px dashed #a5d6a7;border-radius:14px;padding:12px 14px"><div style="font-size:9px;font-weight:800;letter-spacing:1px;color:#2d6a4f;margin-bottom:6px"> TERJEMAHAN INDONESIA</div><div id="transText" style="font-size:13px;line-height:1.6;color:#1b4332">Memuat...</div></div>
+      <div id="transBox" style="display:none;margin-top:16px;text-align:left;background:#f0f7f2;border:1px dashed #a5d6a7;border-radius:14px;padding:12px 14px"><div style="font-size:9px;font-weight:800;letter-spacing:1px;color:#2d6a4f;margin-bottom:6px">✦ TERJEMAHAN INDONESIA</div><div id="transText" style="font-size:13px;line-height:1.6;color:#1b4332">Memuat...</div></div>
     </div>
-    <div class="actions"><button class="btn btn-green" id="transBtn" onclick="toggleTrans()"> Terjemahan</button><button class="btn btn-green" onclick="copyAyah()"> Salin</button><button class="btn btn-gray" onclick="closeFullModal()">Tutup</button></div>
+    <div class="actions"><button class="btn btn-green" id="transBtn" onclick="toggleTrans()">📖 Terjemahan</button><button class="btn btn-green" onclick="copyAyah()">📋 Salin</button><button class="btn btn-gray" onclick="closeFullModal()">Tutup</button></div>
   </div>
 </div>
 
@@ -103,12 +103,12 @@ const daftarSurat={};window.registerSurat=(k,c)=>{daftarSurat[k]=c;}
 function detectLegacyBaqarah(){try{if(typeof baqarahData!=='undefined'&&typeof fullBaqarah!=='undefined'){if(!daftarSurat['baqarah']){daftarSurat['baqarah']={nama:"Al-Baqarah",data:baqarahData,full:fullBaqarah,startPage:Math.min(...Object.keys(baqarahData).map(Number)),endPage:Math.max(...Object.keys(baqarahData).map(Number)),storageKey:"baqarah_done"};return true;}}}catch(e){}return false;}
 function tryLoadSurat(key){return new Promise(r=>{if(daftarSurat[key]){r(true);return;}let s=document.createElement('script');s.src=key+'.js?v='+Date.now();s.onload=()=>{setTimeout(()=>{if(key==='baqarah')detectLegacyBaqarah();r(true);},50);};s.onerror=()=>r(false);document.head.appendChild(s);});}
 const ALL_KEYS=["baqarah","aliimron","annisa","almaidah","alanam","alaraf","alanfal","attaubah","yunus","hud","yusuf","arrad","ibrahim","alhijr","annahl","alIsra","alkahfi","maryam","thaha","alanbiya","alhajj","almuminun","annur","alfurqon","asyuara","annaml","alqasas","alankabut","arrum","luqman","assajdah","alahzab","saba","fatir","yasin","assaffat","sad","azzumar","ghafir","fussilat","asyura","azzukhruf","addukhan","aljasiyah","alahqaf","muhammad","alfath","alhujurat","qaf","adzariyat","attur","annajm","alqamar","arrahman","alwaqiah","alhadid","almujadalah","alhasyr","almumtahanah","assaff","aljumuah","almunafiqun","attaghabun","attalaq","attahrim","almulk","alqalam","alhaqqah","almaarij","nuh","aljinn","almuzzammil","almuddassir","alqiyamah","alinsan","almursalat","annaba","annaziat","abasa","attakwir","alinfitar","almutaffifin","alinsyiqaq","alburuj","attariq","alala","alghasyiyah","alfajr","albalad","asyams","allail","adduha","asyarh","attin","alalaq","alqadr","albayyinah","azzalzalah","aladiyat","alqariah","attakasur","alasr","alhumazah","alfil","quraisy","almaun","alkausar","alkafirun","annasr","allahab","alikhlas","alfalaq","annas"];
-async function autoDetect(){document.getElementById('grid').innerHTML='<div class="loading"> Mencari baqarah.js...</div>';await tryLoadSurat('baqarah');detectLegacyBaqarah();await Promise.all(ALL_KEYS.filter(k=>k!=='baqarah').map(k=>tryLoadSurat(k)));detectLegacyBaqarah();const sel=document.getElementById('suratSelector');sel.innerHTML='';for(let k in daftarSurat){let o=document.createElement('option');o.value=k;o.innerText=daftarSurat[k].nama;sel.appendChild(o);}if(!Object.keys(daftarSurat).length){document.getElementById('grid').innerHTML='<div class="loading"> .js tidak ketemu - cek baqarah.js harus 1 folder sama index.html</div>';return;}activeKey=Object.keys(daftarSurat)[0];currentSurat=daftarSurat[activeKey];document.getElementById('appTitle').innerText=currentSurat.nama;document.getElementById('stSurat').innerText=Object.keys(daftarSurat).length;renderGrid();}
+async function autoDetect(){document.getElementById('grid').innerHTML='<div class="loading">🔍 Mencari baqarah.js...</div>';await tryLoadSurat('baqarah');detectLegacyBaqarah();await Promise.all(ALL_KEYS.filter(k=>k!=='baqarah').map(k=>tryLoadSurat(k)));detectLegacyBaqarah();const sel=document.getElementById('suratSelector');sel.innerHTML='';for(let k in daftarSurat){let o=document.createElement('option');o.value=k;o.innerText=daftarSurat[k].nama;sel.appendChild(o);}if(!Object.keys(daftarSurat).length){document.getElementById('grid').innerHTML='<div class="loading">❌ .js tidak ketemu - cek baqarah.js harus 1 folder sama index.html</div>';return;}activeKey=Object.keys(daftarSurat)[0];currentSurat=daftarSurat[activeKey];document.getElementById('appTitle').innerText=currentSurat.nama;document.getElementById('stSurat').innerText=Object.keys(daftarSurat).length;renderGrid();}
 let activeKey=null,currentSurat=null,currentPage=2,done=[],currentFullNo=0;const grid=document.getElementById('grid');
 function save(){if(!currentSurat)return;localStorage.setItem(currentSurat.storageKey,JSON.stringify(done));updStats();}
 function updStats(){if(!currentSurat)return;document.getElementById('stDone').innerText=done.length;let total=currentSurat.endPage-currentSurat.startPage+1;let pct=Math.round(done.length/total*100);document.getElementById('stProg').innerText=pct+'%';}
 function changeSurat(k){activeKey=k;currentSurat=daftarSurat[k];currentPage=currentSurat.startPage;done=JSON.parse(localStorage.getItem(currentSurat.storageKey)||'[]');document.getElementById('appTitle').innerText=currentSurat.nama;renderGrid();}
-function renderGrid(){if(!currentSurat)return;grid.innerHTML='';done=JSON.parse(localStorage.getItem(currentSurat.storageKey)||'[]');updStats();document.getElementById('subtitle').innerText=Object.keys(daftarSurat).length+' SURAT � KIRI BIRU KANAN HIJAU';for(let p=currentSurat.startPage;p<=currentSurat.endPage;p++){let d=currentSurat.data[p];let first=d?d.ayats.find(a=>!a.text.includes('{tengah}'))?.text||"":"";let total=d?d.ayats.filter(a=>!a.text.includes('{tengah}')).length:0;let card=document.createElement('div');card.className='card '+(p%2===0?'even':'odd')+(done.includes(p)?' done':'');card.innerHTML=`<div class="check"></div><div class="card-top"><span>H${p}</span><span class="badge">${total}</span></div><div class="first">${first}</div>`;card.onclick=()=>openModal(p);let t;card.addEventListener('touchstart',()=>{t=setTimeout(()=>{toggleDone(p,card);if(navigator.vibrate)navigator.vibrate(40);},650);});card.addEventListener('touchend',()=>clearTimeout(t));card.addEventListener('contextmenu',e=>{e.preventDefault();toggleDone(p,card);});grid.appendChild(card);}}
+function renderGrid(){if(!currentSurat)return;grid.innerHTML='';done=JSON.parse(localStorage.getItem(currentSurat.storageKey)||'[]');updStats();document.getElementById('subtitle').innerText=Object.keys(daftarSurat).length+' SURAT • KIRI BIRU KANAN HIJAU';for(let p=currentSurat.startPage;p<=currentSurat.endPage;p++){let d=currentSurat.data[p];let first=d?d.ayats.find(a=>!a.text.includes('{tengah}'))?.text||"":"";let total=d?d.ayats.filter(a=>!a.text.includes('{tengah}')).length:0;let card=document.createElement('div');card.className='card '+(p%2===0?'even':'odd')+(done.includes(p)?' done':'');card.innerHTML=`<div class="check">✓</div><div class="card-top"><span>H${p}</span><span class="badge">${total}</span></div><div class="first">${first}</div>`;card.onclick=()=>openModal(p);let t;card.addEventListener('touchstart',()=>{t=setTimeout(()=>{toggleDone(p,card);if(navigator.vibrate)navigator.vibrate(40);},650);});card.addEventListener('touchend',()=>clearTimeout(t));card.addEventListener('contextmenu',e=>{e.preventDefault();toggleDone(p,card);});grid.appendChild(card);}}
 function toggleDone(p,card){if(done.includes(p)){done=done.filter(x=>x!==p);card.classList.remove('done');}else{done.push(p);card.classList.add('done');}save();}
 function renderList(p){
   let d=currentSurat.data[p];if(!d)return;
@@ -124,7 +124,7 @@ function renderList(p){
   d.ayats.forEach(it=>{
     if(it.text.includes('{tengah}')){
       let sep=document.createElement('div');sep.className='sep';
-      sep.innerHTML=`<div class="sep-line"></div><span class="sep-text">NDUWUR ${atas} � NGISOR ${bawah}</span><div class="sep-line"></div>`;
+      sep.innerHTML=`<div class="sep-line"></div><span class="sep-text">NDUWUR ${atas} • NGISOR ${bawah}</span><div class="sep-line"></div>`;
       list.appendChild(sep);return;
     }
     let li=document.createElement('div');li.className='item '+(p%2===0?'even':'odd');
@@ -133,7 +133,7 @@ function renderList(p){
     list.appendChild(li);cnt++;
     if(!hasT && cnt===3 && real.length>3){
       let sep=document.createElement('div');sep.className='sep';
-      sep.innerHTML=`<div class="sep-line"></div><span class="sep-text"> TENGAH OTOMATIS  3 ${real.length-3}</span><div class="sep-line"></div>`;
+      sep.innerHTML=`<div class="sep-line"></div><span class="sep-text">✦ TENGAH OTOMATIS ✦ 3↑ ${real.length-3}↓</span><div class="sep-line"></div>`;
       list.appendChild(sep);
     }
   });
@@ -142,7 +142,7 @@ function openModal(p){
   currentPage=p;
   let d=currentSurat.data[p];if(!d)return;
   let real=d.ayats.filter(a=>!a.text.includes('{tengah}'));
-  document.getElementById('modalTitle').innerText='Halaman '+p+(p%2===0?' � Kiri':' � Kanan');
+  document.getElementById('modalTitle').innerText='Halaman '+p+(p%2===0?' • Kiri':' • Kanan');
   renderList(p);
   let sp=window._splitInfo;
   document.getElementById('modalSub').innerText=`Ayat ${real[0]?.no||''} - ${real[real.length-1]?.no||''} (${real.length} ayat)`;
@@ -154,8 +154,8 @@ function navPage(dir){let np=currentPage+dir;if(np<currentSurat.startPage||np>cu
 let transCache={};let transVisible=false;
 async function toggleTrans(){
  let box=document.getElementById('transBox');let btn=document.getElementById('transBtn');let txt=document.getElementById('transText');
- if(transVisible){box.style.display='none';transVisible=false;btn.innerText=' Terjemahan';return;}
- box.style.display='block';transVisible=true;btn.innerText=' Sembunyikan';
+ if(transVisible){box.style.display='none';transVisible=false;btn.innerText='📖 Terjemahan';return;}
+ box.style.display='block';transVisible=true;btn.innerText='🙈 Sembunyikan';
  let key=currentSurat.nama+'_'+currentFullNo;
  if(transCache[key]){txt.innerText=transCache[key];return;}
  if(typeof terjemahData!=='undefined' && terjemahData[activeKey] && terjemahData[activeKey][currentFullNo]){
@@ -163,7 +163,7 @@ async function toggleTrans(){
    transCache[key]=terjemahData[activeKey][currentFullNo];
    return;
  }
- txt.innerText=' Memuat terjemahan...';
+ txt.innerText='⏳ Memuat terjemahan...';
  try{
   let surahMap={"baqarah":2,"aliimron":3,"annisa":4};
   let surahNo=surahMap[activeKey]||2;
@@ -192,16 +192,16 @@ function openFullAyah(no,shortText){
   document.getElementById('fullBodyScroll').scrollTop = 0; // Reset posisi scroll ke atas pas buka ayat baru
   updateFullDisplay(no,shortText);
   document.getElementById('ayahFullModal').classList.add('show');
-  document.getElementById('transBox').style.display='none';transVisible=false;document.getElementById('transBtn').innerText=' Terjemahan';
+  document.getElementById('transBox').style.display='none';transVisible=false;document.getElementById('transBtn').innerText='📖 Terjemahan';
 }
 function updateFullDisplay(no,shortText){
   let full=(currentSurat.full&&currentSurat.full[no]&&currentSurat.full[no].length>5)?currentSurat.full[no]:shortText;
   document.getElementById('fullTitle').innerText=currentSurat.nama+' : '+no;
   document.getElementById('fullArabic').innerText=full;
   let pg=Object.keys(currentSurat.data).find(k=>currentSurat.data[k].ayats.some(a=>a.no===no))||'-';
-  document.getElementById('fullSubHeader').innerText='Halaman '+pg+' � Ayat '+no;
+  document.getElementById('fullSubHeader').innerText='Halaman '+pg+' • Ayat '+no;
 }
-function navAyah(dir){let nn=currentFullNo+dir;let found="";let ok=false;for(let k in currentSurat.data){let f=currentSurat.data[k].ayats.find(a=>a.no===nn);if(f){found=f.text;ok=true;break;}}if(!ok)return;currentFullNo=nn;document.getElementById('fullBodyScroll').scrollTop = 0;updateFullDisplay(nn,found);document.getElementById('transBox').style.display='none';transVisible=false;document.getElementById('transBtn').innerText=' Terjemahan';}
+function navAyah(dir){let nn=currentFullNo+dir;let found="";let ok=false;for(let k in currentSurat.data){let f=currentSurat.data[k].ayats.find(a=>a.no===nn);if(f){found=f.text;ok=true;break;}}if(!ok)return;currentFullNo=nn;document.getElementById('fullBodyScroll').scrollTop = 0;updateFullDisplay(nn,found);document.getElementById('transBox').style.display='none';transVisible=false;document.getElementById('transBtn').innerText='📖 Terjemahan';}
 function closeFullModal(){document.getElementById('ayahFullModal').classList.remove('show');}
 function copyAyah(){let t=document.getElementById('fullArabic').innerText;let tr=document.getElementById('transText').innerText;let box=document.getElementById('transBox');let full=t;if(box.style.display!=='none'){full=t+"\n\nTerjemahan:\n"+tr;}navigator.clipboard.writeText(full).then(()=>alert('Ayat '+currentFullNo+' disalin Jo!'));}
 
