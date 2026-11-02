@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Hafalan Quran Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-<style>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0f3d2e">
+  <style>
 *{box-sizing:border-box}
 :root{--green:#0f3d2e;--green2:#1a7a4c;--mint:#e8f5e9;--mint-b:#a5d6a7;--blue:#e3f2fd;--blue-b:#90caf9;--bg:#f6faf7}
 body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(180deg,#f6faf7,#eef6f0);min-height:100vh;color:#0f3d2e}
@@ -160,5 +162,8 @@ document.getElementById('ayahFullModal').addEventListener('click',e=>{if(e.targe
 autoDetect();
 </script>
 <script src="terjemah.js"></script>
+  <script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}
+  </script>
 </body>
 </html>
