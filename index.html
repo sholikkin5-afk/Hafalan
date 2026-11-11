@@ -1,264 +1,270 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Hafalan Quran Premium</title>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0f3d2e">
-  <style>
-*{box-sizing:border-box}
-:root{--green:#0f3d2e;--green2:#1a7a4c;--mint:#e8f5e9;--mint-b:#a5d6a7;--blue:#e3f2fd;--blue-b:#90caf9;--bg:#f6faf7}
-body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(180deg,#f6faf7,#eef6f0);min-height:100vh;color:#0f3d2e}
-.header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);border-bottom:1px solid #e6efe8;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,#0f3d2e,#2d8a5e);display:grid;place-items:center;color:#fff;font-weight:800}
-.brand h1{margin:0;font-size:14px;line-height:1.1}
-.brand p{margin:0;font-size:9px;opacity:.6;letter-spacing:.6px}
-.surat-select{appearance:none;background:#f1f8e9;border:1.5px solid #b6d7b8;padding:8px 28px 8px 12px;border-radius:999px;font-weight:800;font-size:12px;color:#0f3d2e;outline:none;max-width:160px}
-.stats{display:flex;gap:8px;padding:10px 14px}
-.stat{flex:1;background:#fff;border:1px solid #e7efe8;border-radius:16px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 18px rgba(15,61,46,.06)}
-.stat b{font-size:18px}
-.stat span{font-size:10px;opacity:.7}
-.grid{padding:0 12px 90px;display:grid;grid-template-columns:repeat(4,1fr);gap:5px; direction:rtl}
-.card{border-radius:20px;padding:10px 10px 8px;position:relative;cursor:pointer;min-height:92px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 8px 20px rgba(0,0,0,.06);transition:.2s;border:3.5px solid transparent;overflow:hidden}
-.card.odd{background:linear-gradient(180deg,#ffffff 0%,#e8f5e9 100%);border-color:#c8e6c9}
-.card.even{background:linear-gradient(180deg,#ffffff 0%,#e3f2fd 100%);border-color:#bbdefb}
-.card.done{outline:2px solid #1a7a4c;outline-offset:1px}
-.card-top{display:flex;justify-content:space-between;font-size:9px;font-weight:800;opacity:.6}
-.badge{font-size:12px;background:rgba(0,0,0,.06);padding:3px 7px;border-radius:999px}
-.first{font-family:'Amiri',serif;font-weight:800;font-size:18px;direction:rtl;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;margin-top:6px}
-.check{position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;background:#1a7a4c;color:#fff;display:none;place-items:center;font-size:10px}
-.card.done .check{display:grid}
-.modal-bg{position:fixed;inset:0;background:rgba(7,22,17,.45);backdrop-filter:blur(8px);display:none;z-index:50;align-items:center;justify-content:center;padding:16px}
-.modal-bg.show{display:flex}
-.sheet{background:#fff;width:100%;max-width:520px;max-height:82vh;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;animation:up .35s cubic-bezier(.16,1,.3,1);box-shadow:0 20px 60px rgba(0,0,0,.25)}
-@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.handle{width:36px;height:5px;background:#e0e0e0;border-radius:999px;margin:10px auto 0}
-.sheet-head{padding:14px 16px 12px;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.sheet-head h2{margin:0;font-size:17px;font-weight:800}
-.sheet-head p#modalSub{margin:6px 0 0;font-size:15px;font-weight:800;opacity:1;color:#0f3d2e;line-height:1.3}
-.list{overflow:auto;flex:1}
-.item{padding:14px 16px;display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #fafafa;cursor:pointer}
-.arab{font-family:'Amiri',serif;font-size:21px;font-weight:700;direction:rtl;flex:1}
-.num{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0}
-.odd .num{background:#e8f5e9;color:#1b5e20}
-.even .num{background:#e3f2fd;color:#0d47a1}
-.sep{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#fffde7}
-.sep-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,#f9a825,transparent)}
-.sep-text{font-size:10px;font-weight:800;color:#e65100;background:#fff8e1;padding:5px 11px;border-radius:999px;border:1px solid #ffe082}
-.full-bg{position:fixed;inset:0;background:rgba(7,22,17,.55);backdrop-filter:blur(10px);display:none;z-index:60;align-items:center;justify-content:center;padding:16px}
-.full-bg.show{display:flex}
-.full{background:#fff;border-radius:24px;width:100%;max-width:420px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-.full-head{padding:16px 18px;background:linear-gradient(135deg,#0f3d2e,#2d8a5e);color:#fff;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
-.full-head-content{display:flex;flex-direction:column;gap:2px}
-.full-head b{font-size:15px}
-.full-head span.sub-info{font-size:10px;opacity:.8;font-weight:600}
-.full-body{padding:22px 18px;text-align:center;overflow-y:auto;flex:1;overscroll-behavior:contain}
-.full-arab{font-family:'Amiri',serif;font-size:32px;line-height:1.9;direction:rtl;color:#0f3d2e;font-weight:700;transition:font-size 0.1s ease;user-select:none}
-.zoom-controls{display:flex;justify-content:center;gap:6px;margin-bottom:8px}
-.zoom-btn{background:#e8f5e9;border:1px solid #a5d6a7;color:#0f3d2e;width:28px;height:28px;border-radius:8px;font-weight:800;cursor:pointer;font-size:13px}
-.actions{display:flex;gap:8px;padding:12px 14px;border-top:1px solid #eee;flex-shrink:0}
-.btn{flex:1;padding:12px;border:none;border-radius:12px;font-weight:800;font-size:12px;cursor:pointer}
-.btn-green{background:#e8f5e9;color:#0f3d2e}
-.btn-gray{background:#f5f5f5;color:#666}
-.hint{text-align:center;font-size:8px;letter-spacing:.8px;color:#aaa;padding:8px;background:#fafafa;flex-shrink:0}
-.loading{padding:24px;text-align:center;color:#6b8f71}
-.badge-split{font-size:11px;font-weight:800;padding:5px 10px;border-radius:999px;border:1px solid}
-.badge-up{background:#e8f5e9;color:#1b5e20;border-color:#a5d6a7}
-.badge-down{background:#e3f2fd;color:#0d47a1;border-color:#90caf9}
-</style>
-</head>
-<body>
-<div class="header"><div class="brand"><div class="logo">ق</div><div><h1 id="appTitle">Memuat...</h1><p id="subtitle">PREMIUM HAFALAN</p></div></div><div class="select-wrap"><select id="suratSelector" class="surat-select" onchange="changeSurat(this.value)"></select></div></div>
-<div class="stats"><div class="stat"><div><span>SURAT</span><br><b id="stSurat">0</b></div><div>📚</div></div><div class="stat"><div><span>SELESAI</span><br><b id="stDone">0</b></div><div>✅</div></div><div class="stat"><div><span>PROGRESS</span><br><b id="stProg">0%</b></div><div>🌿</div></div></div>
-<div class="grid" id="grid"></div>
-<div class="modal-bg" id="detailModal"><div class="sheet" id="modalContent"><div class="handle"></div><div class="sheet-head"><div style="flex:1;min-width:0"><h2 id="modalTitle"></h2><p id="modalSub"></p><div id="modalSplit" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px"></div></div><div style="display:flex;gap:6px;align-items:center;flex-shrink:0"><button class="btn btn-gray" style="width:36px" onclick="navPage(-1)">‹</button><button class="btn btn-gray" style="width:36px" onclick="navPage(1)">›</button><span style="cursor:pointer;font-size:22px;padding:4px" onclick="closeModal()">×</span></div></div><div class="list" id="modalAyahList"></div><div class="hint">SWIPE UNTUK GANTI HALAMAN</div></div></div>
-
-<div class="full-bg" id="ayahFullModal">
-  <div class="full" id="ayahFullContent">
-    <div class="full-head">
-      <div class="full-head-content">
-        <b id="fullTitle">Ayat</b>
-        <span class="sub-info" id="fullSubHeader">Halaman • Ayat</span>
-      </div>
-      <span style="cursor:pointer;font-size:22px" onclick="closeFullModal()">×</span>
-    </div>
-    <div class="full-body" id="fullBodyScroll">
-      <div class="zoom-controls">
-
-
-
-</div>
-      <div class="full-arab" id="fullArabic"></div>
-      <div id="transBox" style="display:none;margin-top:16px;text-align:left;background:#f0f7f2;border:1px dashed #a5d6a7;border-radius:14px;padding:12px 14px"><div style="font-size:9px;font-weight:800;letter-spacing:1px;color:#2d6a4f;margin-bottom:6px">✦ TERJEMAHAN INDONESIA</div><div id="transText" style="font-size:13px;line-height:1.6;color:#1b4332">Memuat...</div></div>
-    </div>
-    <div class="actions"><button class="btn btn-green" id="transBtn" onclick="toggleTrans()">📖 Terjemahan</button><button class="btn btn-green" onclick="copyAyah()">📋 Salin</button><button class="btn btn-gray" onclick="closeFullModal()">Tutup</button></div>
-  </div>
-</div>
-
-<script>
-const daftarSurat={};window.registerSurat=(k,c)=>{daftarSurat[k]=c;}
-function detectLegacyBaqarah(){try{if(typeof baqarahData!=='undefined'&&typeof fullBaqarah!=='undefined'){if(!daftarSurat['baqarah']){daftarSurat['baqarah']={nama:"Al-Baqarah",data:baqarahData,full:fullBaqarah,startPage:Math.min(...Object.keys(baqarahData).map(Number)),endPage:Math.max(...Object.keys(baqarahData).map(Number)),storageKey:"baqarah_done"};return true;}}}catch(e){}return false;}
-function tryLoadSurat(key){return new Promise(r=>{if(daftarSurat[key]){r(true);return;}let s=document.createElement('script');s.src=key+'.js?v='+Date.now();s.onload=()=>{setTimeout(()=>{if(key==='baqarah')detectLegacyBaqarah();r(true);},50);};s.onerror=()=>r(false);document.head.appendChild(s);});}
-const ALL_KEYS=["baqarah","aliimron","annisa","almaidah","alanam","alaraf","alanfal","attaubah","yunus","hud","yusuf","arrad","ibrahim","alhijr","annahl","alIsra","alkahfi","maryam","thaha","alanbiya","alhajj","almuminun","annur","alfurqon","asyuara","annaml","alqasas","alankabut","arrum","luqman","assajdah","alahzab","saba","fatir","yasin","assaffat","sad","azzumar","ghafir","fussilat","asyura","azzukhruf","addukhan","aljasiyah","alahqaf","muhammad","alfath","alhujurat","qaf","adzariyat","attur","annajm","alqamar","arrahman","alwaqiah","alhadid","almujadalah","alhasyr","almumtahanah","assaff","aljumuah","almunafiqun","attaghabun","attalaq","attahrim","almulk","alqalam","alhaqqah","almaarij","nuh","aljinn","almuzzammil","almuddassir","alqiyamah","alinsan","almursalat","annaba","annaziat","abasa","attakwir","alinfitar","almutaffifin","alinsyiqaq","alburuj","attariq","alala","alghasyiyah","alfajr","albalad","asyams","allail","adduha","asyarh","attin","alalaq","alqadr","albayyinah","azzalzalah","aladiyat","alqariah","attakasur","alasr","alhumazah","alfil","quraisy","almaun","alkausar","alkafirun","annasr","allahab","alikhlas","alfalaq","annas"];
-async function autoDetect(){document.getElementById('grid').innerHTML='<div class="loading">🔍 Mencari baqarah.js...</div>';await tryLoadSurat('baqarah');detectLegacyBaqarah();await Promise.all(ALL_KEYS.filter(k=>k!=='baqarah').map(k=>tryLoadSurat(k)));detectLegacyBaqarah();const sel=document.getElementById('suratSelector');sel.innerHTML='';for(let k in daftarSurat){let o=document.createElement('option');o.value=k;o.innerText=daftarSurat[k].nama;sel.appendChild(o);}if(!Object.keys(daftarSurat).length){document.getElementById('grid').innerHTML='<div class="loading">❌ .js tidak ketemu - cek baqarah.js harus 1 folder sama index.html</div>';return;}activeKey=Object.keys(daftarSurat)[0];currentSurat=daftarSurat[activeKey];document.getElementById('appTitle').innerText=currentSurat.nama;document.getElementById('stSurat').innerText=Object.keys(daftarSurat).length;renderGrid();}
-let activeKey=null,currentSurat=null,currentPage=2,done=[],currentFullNo=0;const grid=document.getElementById('grid');
-function save(){if(!currentSurat)return;localStorage.setItem(currentSurat.storageKey,JSON.stringify(done));updStats();}
-function updStats(){if(!currentSurat)return;document.getElementById('stDone').innerText=done.length;let total=currentSurat.endPage-currentSurat.startPage+1;let pct=Math.round(done.length/total*100);document.getElementById('stProg').innerText=pct+'%';}
-function changeSurat(k){activeKey=k;currentSurat=daftarSurat[k];currentPage=currentSurat.startPage;done=JSON.parse(localStorage.getItem(currentSurat.storageKey)||'[]');document.getElementById('appTitle').innerText=currentSurat.nama;renderGrid();}
-function renderGrid(){if(!currentSurat)return;grid.innerHTML='';done=JSON.parse(localStorage.getItem(currentSurat.storageKey)||'[]');updStats();document.getElementById('subtitle').innerText=Object.keys(daftarSurat).length+' SURAT • KIRI BIRU KANAN HIJAU';for(let p=currentSurat.startPage;p<=currentSurat.endPage;p++){let d=currentSurat.data[p];let first=d?d.ayats.find(a=>!a.text.includes('{tengah}'))?.text||"":"";let total=d?d.ayats.filter(a=>!a.text.includes('{tengah}')).length:0;let card=document.createElement('div');card.className='card '+(p%2===0?'even':'odd')+(done.includes(p)?' done':'');card.innerHTML=`<div class="check">✓</div><div class="card-top"><span>H${p}</span><span class="badge">${total}</span></div><div class="first">${first}</div>`;card.onclick=()=>openModal(p);let t;card.addEventListener('touchstart',()=>{t=setTimeout(()=>{toggleDone(p,card);if(navigator.vibrate)navigator.vibrate(40);},650);});card.addEventListener('touchend',()=>clearTimeout(t));card.addEventListener('contextmenu',e=>{e.preventDefault();toggleDone(p,card);});grid.appendChild(card);}}
-function toggleDone(p,card){if(done.includes(p)){done=done.filter(x=>x!==p);card.classList.remove('done');}else{done.push(p);card.classList.add('done');}save();}
-function renderList(p){
-  let d=currentSurat.data[p];if(!d)return;
-  let list=document.getElementById('modalAyahList');list.innerHTML='';
-  let atas=0,bawah=0,ketemu=false;
-  d.ayats.forEach(a=>{ if(a.text.includes('{tengah}')){ketemu=true;return;} if(!ketemu) atas++; else bawah++; });
-  let hasT=d.ayats.some(a=>a.text.includes('{tengah}'));
-  let real=d.ayats.filter(a=>!a.text.includes('{tengah}'));
-  let autoIdx = !hasT && real.length>3 ? 3 : -1;
-  window._splitInfo={atas:hasT?atas:(autoIdx>0?autoIdx:real.length), bawah:hasT?bawah:(real.length-autoIdx), hasTengah:hasT};
-
-  let cnt=0;
-  d.ayats.forEach(it=>{
-    if(it.text.includes('{tengah}')){
-      let sep=document.createElement('div');sep.className='sep';
-      sep.innerHTML=`<div class="sep-line"></div><span class="sep-text">NDUWUR ${atas} • NGISOR ${bawah}</span><div class="sep-line"></div>`;
-      list.appendChild(sep);return;
-    }
-    let li=document.createElement('div');li.className='item '+(p%2===0?'even':'odd');
-    li.innerHTML=`<span class="arab">${it.text}</span><span class="num">${it.no}</span>`;
-    li.onclick=()=>openFullAyah(it.no,it.text);
-    list.appendChild(li);cnt++;
-    if(!hasT && cnt===3 && real.length>3){
-      let sep=document.createElement('div');sep.className='sep';
-      sep.innerHTML=`<div class="sep-line"></div><span class="sep-text">✦ TENGAH OTOMATIS ✦ 3↑ ${real.length-3}↓</span><div class="sep-line"></div>`;
-      list.appendChild(sep);
-    }
-  });
-}
-function openModal(p){
-  currentPage=p;
-  let d=currentSurat.data[p];if(!d)return;
-  let real=d.ayats.filter(a=>!a.text.includes('{tengah}'));
-  document.getElementById('modalTitle').innerText='Halaman '+p+(p%2===0?' • Kiri':' • Kanan');
-  renderList(p);
-  let sp=window._splitInfo;
-  document.getElementById('modalSub').innerText=`Ayat ${real[0]?.no||''} - ${real[real.length-1]?.no||''} (${real.length} ayat)`;
-  document.getElementById('modalSplit').innerHTML=`<span class="badge-split badge-up">${sp.atas}</span><span class="badge-split badge-down">${sp.bawah}</span>`+(sp.hasTengah?'':'<span style="font-size:9px;opacity:.6;align-self:center">otomatis</span>');
-  document.getElementById('detailModal').classList.add('show');
-}
-function closeModal(){document.getElementById('detailModal').classList.remove('show');}
-function navPage(dir){let np=currentPage+dir;if(np<currentSurat.startPage||np>currentSurat.endPage)return;openModal(np);currentPage=np;}
-let transCache={};let transVisible=false;
-async function toggleTrans(){
- let box=document.getElementById('transBox');let btn=document.getElementById('transBtn');let txt=document.getElementById('transText');
- if(transVisible){box.style.display='none';transVisible=false;btn.innerText='📖 Terjemahan';return;}
- box.style.display='block';transVisible=true;btn.innerText='🙈 Sembunyikan';
- let key=currentSurat.nama+'_'+currentFullNo;
- if(transCache[key]){txt.innerText=transCache[key];return;}
- if(typeof terjemahData!=='undefined' && terjemahData[activeKey] && terjemahData[activeKey][currentFullNo]){
-   txt.innerText=terjemahData[activeKey][currentFullNo];
-   transCache[key]=terjemahData[activeKey][currentFullNo];
-   return;
- }
- txt.innerText='⏳ Memuat terjemahan...';
- try{
-  let surahMap={"baqarah":2,"aliimron":3,"annisa":4};
-  let surahNo=surahMap[activeKey]||2;
-  let res=await fetch(`https://api.quran.com/api/v4/verses/by_key/${surahNo}:${currentFullNo}?language=id&translations=33&text_type=translation`);
-  let data=await res.json();
-  let trans=data.translations?.[0]?.text||'';
-  if(trans){trans=trans.replace(/<[^>]*>/g,'');transCache[key]=trans;txt.innerText=trans;}
-  else throw 'no';
- }catch(e){txt.innerText='Gagal load online. Tambahkan terjemah.js untuk mode offline Jo.';}
-}
-
-let currentFontSize = 32;
-function adjustZoom(amount){
-  currentFontSize = Math.min(maxFontSize, Math.max(minFontSize, currentFontSize + amount));
-  document.getElementById('fullArabic').style.fontSize = currentFontSize + 'px';
-}
-function resetZoom(){
-  currentFontSize = 32;
-  document.getElementById('fullArabic').style.fontSize = currentFontSize + 'px';
-}
-
-function openFullAyah(no,shortText){
-  currentFullNo=no;
-  currentFontSize=32;
-  document.getElementById('fullArabic').style.fontSize = currentFontSize + 'px';
-  document.getElementById('fullBodyScroll').scrollTop = 0; // Reset posisi scroll ke atas pas buka ayat baru
-  updateFullDisplay(no,shortText);
-  document.getElementById('ayahFullModal').classList.add('show');
-  document.getElementById('transBox').style.display='none';transVisible=false;document.getElementById('transBtn').innerText='📖 Terjemahan';
-}
-function updateFullDisplay(no,shortText){
-  let full=(currentSurat.full&&currentSurat.full[no]&&currentSurat.full[no].length>5)?currentSurat.full[no]:shortText;
-  document.getElementById('fullTitle').innerText=currentSurat.nama+' : '+no;
-  document.getElementById('fullArabic').innerText=full;
-  let pg=Object.keys(currentSurat.data).find(k=>currentSurat.data[k].ayats.some(a=>a.no===no))||'-';
-  document.getElementById('fullSubHeader').innerText='Halaman '+pg+' • Ayat '+no;
-}
-function navAyah(dir){let nn=currentFullNo+dir;let found="";let ok=false;for(let k in currentSurat.data){let f=currentSurat.data[k].ayats.find(a=>a.no===nn);if(f){found=f.text;ok=true;break;}}if(!ok)return;currentFullNo=nn;document.getElementById('fullBodyScroll').scrollTop = 0;updateFullDisplay(nn,found);document.getElementById('transBox').style.display='none';transVisible=false;document.getElementById('transBtn').innerText='📖 Terjemahan';}
-function closeFullModal(){document.getElementById('ayahFullModal').classList.remove('show');}
-function copyAyah(){let t=document.getElementById('fullArabic').innerText;let tr=document.getElementById('transText').innerText;let box=document.getElementById('transBox');let full=t;if(box.style.display!=='none'){full=t+"\n\nTerjemahan:\n"+tr;}navigator.clipboard.writeText(full).then(()=>alert('Ayat '+currentFullNo+' disalin Jo!'));}
-
-let initialPinchDistance = null;
-const minFontSize = 20;
-const maxFontSize = 64;
-const fullBodyEl = document.getElementById('ayahFullContent');
-
-fullBodyEl.addEventListener('touchstart', e => {
-  if(e.touches.length === 2){
-    initialPinchDistance = Math.hypot(
-      e.touches[0].clientX - e.touches[1].clientX,
-      e.touches[0].clientY - e.touches[1].clientY
-    );
-  } else if(e.touches.length === 1){
-    fx = e.touches[0].clientX;
-  }
-},{passive:true});
-
-fullBodyEl.addEventListener('touchmove', e => {
-  if(e.touches.length === 2 && initialPinchDistance !== null){
-    let currentDistance = Math.hypot(
-      e.touches[0].clientX - e.touches[1].clientX,
-      e.touches[0].clientY - e.touches[1].clientY
-    );
-    let diff = currentDistance - initialPinchDistance;
-    if(Math.abs(diff) > 10){
-      currentFontSize = Math.min(maxFontSize, Math.max(minFontSize, currentFontSize + (diff > 0 ? 1 : -1)));
-      document.getElementById('fullArabic').style.fontSize = currentFontSize + 'px';
-      initialPinchDistance = currentDistance;
-    }
-  }
-},{passive:true});
-
-fullBodyEl.addEventListener('touchend', e => {
-  if(e.touches.length < 2) initialPinchDistance = null;
-  // Geser kiri/kanan ganti ayat mung aktif nek nganggo 1 driji lan ora nindakake zoom
-  if(e.changedTouches.length === 1 && initialPinchDistance === null){
-    let dx = e.changedTouches[0].clientX - fx;
-    // Tambah watesan supaya pas nycroll vertikal (munggah mudun) ora gampang ke-trigger geser ayat horizontal
-    if(Math.abs(dx) > 70){
-      if(dx < 0) navAyah(-1);
-      else navAyah(1);
-    }
-  }
-},{passive:true});
-
-let sx=0;document.getElementById('modalContent').addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
-document.getElementById('modalContent').addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>60){if(dx<0)navPage(-1);else navPage(1);}},{passive:true});
-
-document.getElementById('detailModal').addEventListener('click',e=>{if(e.target.id==='detailModal')closeModal();});
-document.getElementById('ayahFullModal').addEventListener('click',e=>{if(e.target.id==='ayahFullModal')closeFullModal();});
-autoDetect();
-</script>
-<script src="terjemah.js"></script>
-  <script>
-if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}
-  </script>
-</body>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Hafalan Quran Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0f3d2e">
+  <style>
+*{box-sizing:border-box}
+:root{--green:#0f3d2e;--green2:#1a7a4c;--mint:#e8f5e9;--mint-b:#a5d6a7;--blue:#e3f2fd;--blue-b:#90caf9;--bg:#f6faf7}
+body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(180deg,#f6faf7,#eef6f0);min-height:100vh;color:#0f3d2e}
+.header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);border-bottom:1px solid #e6efe8;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,#0f3d2e,#2d8a5e);display:grid;place-items:center;color:#fff;font-weight:800}
+.brand h1{margin:0;font-size:14px;line-height:1.1}
+.brand p{margin:0;font-size:9px;opacity:.6;letter-spacing:.6px}
+.surat-select{appearance:none;background:#f1f8e9;border:1.5px solid #b6d7b8;padding:8px 28px 8px 12px;border-radius:999px;font-weight:800;font-size:12px;color:#0f3d2e;outline:none;max-width:160px}
+.stats{display:flex;gap:8px;padding:10px 14px}
+.stat{flex:1;background:#fff;border:1px solid #e7efe8;border-radius:16px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 18px rgba(15,61,46,.06)}
+.stat b{font-size:18px}
+.stat span{font-size:10px;opacity:.7}
+.grid{padding:0 12px 90px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;direction:rtl}
+.card{border-radius:16px;padding:10px 8px;position:relative;cursor:pointer;min-height:86px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 4px 12px rgba(0,0,0,.04);transition:.2s;border:2.5px solid transparent;overflow:hidden}
+.card.odd{background:linear-gradient(180deg,#ffffff 0%,#e8f5e9 100%);border-color:#c8e6c9}
+.card.even{background:linear-gradient(180deg,#ffffff 0%,#e3f2fd 100%);border-color:#bbdefb}
+.card.done{outline:2px solid #1a7a4c;outline-offset:1px}
+.card-top{display:flex;justify-content:space-between;width:100%;font-size:10px;font-weight:800;opacity:.7}
+.badge{font-size:10px;background:rgba(0,0,0,.06);padding:2px 6px;border-radius:999px}
+.card-arab{font-family:'Amiri',serif;font-size:16px;font-weight:700;direction:rtl;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;margin-top:4px;color:#0f3d2e}
+.check{position:absolute;top:5px;right:5px;width:14px;height:14px;border-radius:50%;background:#1a7a4c;color:#fff;display:none;place-items:center;font-size:9px}
+.card.done .check{display:grid}
+.modal-bg{position:fixed;inset:0;background:rgba(7,22,17,.45);backdrop-filter:blur(8px);display:none;z-index:50;align-items:center;justify-content:center;padding:16px}
+.modal-bg.show{display:flex}
+.sheet{background:#fff;width:100%;max-width:520px;max-height:82vh;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;animation:up .35s cubic-bezier(.16,1,.3,1);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.handle{width:36px;height:5px;background:#e0e0e0;border-radius:999px;margin:10px auto 0}
+.sheet-head{padding:14px 16px 12px;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sheet-head h2{margin:0;font-size:17px;font-weight:800}
+.sheet-head p#modalSub{margin:6px 0 0;font-size:15px;font-weight:800;opacity:1;color:#0f3d2e;line-height:1.3}
+.list{overflow:auto;flex:1}
+.item{padding:14px 16px;display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #fafafa;cursor:pointer}
+.arab{font-family:'Amiri',serif;font-size:21px;font-weight:700;direction:rtl;flex:1}
+.num{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0}
+.odd .num{background:#e8f5e9;color:#1b5e20}
+.even .num{background:#e3f2fd;color:#0d47a1}
+.sep{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#fffde7}
+.sep-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,#f9a825,transparent)}
+.sep-text{font-size:10px;font-weight:800;color:#e65100;background:#fff8e1;padding:5px 11px;border-radius:999px;border:1px solid #ffe082}
+.full-bg{position:fixed;inset:0;background:rgba(7,22,17,.55);backdrop-filter:blur(10px);display:none;z-index:60;align-items:center;justify-content:center;padding:16px}
+.full-bg.show{display:flex}
+.full{background:#fff;border-radius:24px;width:100%;max-width:420px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.full-head{padding:16px 18px;background:linear-gradient(135deg,#0f3d2e,#2d8a5e);color:#fff;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.full-head-content{display:flex;flex-direction:column;gap:2px}
+.full-head b{font-size:15px}
+.full-head span.sub-info{font-size:10px;opacity:.8;font-weight:600}
+.full-body{padding:22px 18px;text-align:center;overflow-y:auto;flex:1;overscroll-behavior:contain}
+.full-arab{font-family:'Amiri',serif;font-size:32px;line-height:1.9;direction:rtl;color:#0f3d2e;font-weight:700;transition:font-size 0.1s ease;user-select:none}
+.zoom-controls{display:flex;justify-content:center;gap:6px;margin-bottom:8px}
+.actions{display:flex;gap:8px;padding:12px 14px;border-top:1px solid #eee;flex-shrink:0}
+.btn{flex:1;padding:12px;border:none;border-radius:12px;font-weight:800;font-size:12px;cursor:pointer}
+.btn-green{background:#e8f5e9;color:#0f3d2e}
+.btn-gray{background:#f5f5f5;color:#666}
+.hint{text-align:center;font-size:8px;letter-spacing:.8px;color:#aaa;padding:8px;background:#fafafa;flex-shrink:0}
+.loading{padding:24px;text-align:center;color:#6b8f71}
+.badge-split{font-size:11px;font-weight:800;padding:5px 10px;border-radius:999px;border:1px solid}
+.badge-up{background:#e8f5e9;color:#1b5e20;border-color:#a5d6a7}
+.badge-down{background:#e3f2fd;color:#0d47a1;border-color:#90caf9}
+</style>
+</head>
+<body>
+<div class="header"><div class="brand"><div class="logo">ق</div><div><h1 id="appTitle">Memuat...</h1><p id="subtitle">PREMIUM HAFALAN</p></div></div><div class="select-wrap"><select id="suratSelector" class="surat-select" onchange="changeSurat(this.value)"></select></div></div>
+<div class="stats"><div class="stat"><div><span>SURAT</span><br><b id="stSurat">0</b></div><div>📚</div></div><div class="stat"><div><span>SELESAI</span><br><b id="stDone">0</b></div><div>✅</div></div><div class="stat"><div><span>PROGRESS</span><br><b id="stProg">0%</b></div><div>🌿</div></div></div>
+<div class="grid" id="grid"></div>
+<div class="modal-bg" id="detailModal"><div class="sheet" id="modalContent"><div class="handle"></div><div class="sheet-head"><div style="flex:1;min-width:0"><h2 id="modalTitle"></h2><p id="modalSub"></p><div id="modalSplit" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px"></div></div><div style="display:flex;gap:6px;align-items:center;flex-shrink:0"><button class="btn btn-gray" style="width:36px" onclick="navPage(-1)">‹</button><button class="btn btn-gray" style="width:36px" onclick="navPage(1)">›</button><span style="cursor:pointer;font-size:22px;padding:4px" onclick="closeModal()">×</span></div></div><div class="list" id="modalAyahList"></div><div class="hint">SWIPE UNTUK GANTI HALAMAN</div></div></div>
+
+<div class="full-bg" id="ayahFullModal">
+  <div class="full" id="ayahFullContent">
+    <div class="full-head">
+      <div class="full-head-content">
+        <b id="fullTitle">Ayat</b>
+        <span class="sub-info" id="fullSubHeader">Halaman • Ayat</span>
+      </div>
+      <span style="cursor:pointer;font-size:22px" onclick="closeFullModal()">×</span>
+    </div>
+    <div class="full-body" id="fullBodyScroll">
+      <div class="zoom-controls"></div>
+      <div class="full-arab" id="fullArabic"></div>
+      <div id="transBox" style="display:none;margin-top:16px;text-align:left;background:#f0f7f2;border:1px dashed #a5d6a7;border-radius:14px;padding:12px 14px"><div style="font-size:9px;font-weight:800;letter-spacing:1px;color:#2d6a4f;margin-bottom:6px">✦ TERJEMAHAN INDONESIA</div><div id="transText" style="font-size:13px;line-height:1.6;color:#1b4332">Memuat...</div></div>
+    </div>
+    <div class="actions"><button class="btn btn-green" id="transBtn" onclick="toggleTrans()">📖 Terjemahan</button><button class="btn btn-green" onclick="copyAyah()">📋 Salin</button><button class="btn btn-gray" onclick="closeFullModal()">Tutup</button></div>
+  </div>
+</div>
+
+<script>
+const daftarSurat={};window.registerSurat=(k,c)=>{daftarSurat[k]=c;}
+function detectLegacyBaqarah(){try{if(typeof baqarahData!=='undefined'&&typeof fullBaqarah!=='undefined'){if(!daftarSurat['baqarah']){daftarSurat['baqarah']={nama:"Al-Baqarah",data:baqarahData,full:fullBaqarah,startPage:Math.min(...Object.keys(baqarahData).map(Number)),endPage:Math.max(...Object.keys(baqarahData).map(Number)),storageKey:"baqarah_done"};return true;}}}catch(e){}return false;}
+function tryLoadSurat(key){return new Promise(r=>{if(daftarSurat[key]){r(true);return;}let s=document.createElement('script');s.src=key+'.js?v='+Date.now();s.onload=()=>{setTimeout(()=>{if(key==='baqarah')detectLegacyBaqarah();r(true);},50);};s.onerror=()=>r(false);document.head.appendChild(s);});}
+const ALL_KEYS=["baqarah","aliimron","annisa","almaidah","alanam","alaraf","alanfal","attaubah","yunus","hud","yusuf","arrad","ibrahim","alhijr","annahl","alIsra","alkahfi","maryam","thaha","alanbiya","alhajj","almuminun","annur","alfurqon","asyuara","annaml","alqasas","alankabut","arrum","luqman","assajdah","alahzab","saba","fatir","yasin","assaffat","sad","azzumar","ghafir","fussilat","asyura","azzukhruf","addukhan","aljasiyah","alahqaf","muhammad","alfath","alhujurat","qaf","adzariyat","attur","annajm","alqamar","arrahman","alwaqiah","alhadid","almujadalah","alhasyr","almumtahanah","assaff","aljumuah","almunafiqun","attaghabun","attalaq","attahrim","almulk","alqalam","alhaqqah","almaarij","nuh","aljinn","almuzzammil","almuddassir","alqiyamah","alinsan","almursalat","annaba","annaziat","abasa","attakwir","alinfitar","almutaffifin","alinsyiqaq","alburuj","attariq","alala","alghasyiyah","alfajr","albalad","asyams","allail","adduha","asyarh","attin","alalaq","alqadr","albayyinah","azzalzalah","aladiyat","alqariah","attakasur","alasr","alhumazah","alfil","quraisy","almaun","alkausar","alkafirun","annasr","allahab","alikhlas","alfalaq","annas"];
+async function autoDetect(){document.getElementById('grid').innerHTML='<div class="loading">🔍 Mencari baqarah.js...</div>';await tryLoadSurat('baqarah');detectLegacyBaqarah();await Promise.all(ALL_KEYS.filter(k=>k!=='baqarah').map(k=>tryLoadSurat(k)));detectLegacyBaqarah();const sel=document.getElementById('suratSelector');sel.innerHTML='';for(let k in daftarSurat){let o=document.createElement('option');o.value=k;o.innerText=daftarSurat[k].nama;sel.appendChild(o);}if(!Object.keys(daftarSurat).length){document.getElementById('grid').innerHTML='<div class="loading">❌ .js tidak ketemu - cek baqarah.js harus 1 folder sama index.html</div>';return;}activeKey=Object.keys(daftarSurat)[0];currentSurat=daftarSurat[activeKey];document.getElementById('appTitle').innerText=currentSurat.nama;document.getElementById('stSurat').innerText=Object.keys(daftarSurat).length;renderGrid();}
+let activeKey=null,currentSurat=null,currentPage=2,done=[],currentFullNo=0;const grid=document.getElementById('grid');
+function save(){if(!currentSurat)return;localStorage.setItem(currentSurat.storageKey,JSON.stringify(done));updStats();}
+function updStats(){if(!currentSurat)return;document.getElementById('stDone').innerText=done.length;let total=currentSurat.endPage-currentSurat.startPage+1;let pct=Math.round(done.length/total*100);document.getElementById('stProg').innerText=pct+'%';}
+function changeSurat(k){activeKey=k;currentSurat=daftarSurat[k];currentPage=currentSurat.startPage;done=JSON.parse(localStorage.getItem(currentSurat.storageKey)||'[]');document.getElementById('appTitle').innerText=currentSurat.nama;renderGrid();}
+function renderGrid(){
+  if(!currentSurat)return;
+  grid.innerHTML='';
+  done=JSON.parse(localStorage.getItem(currentSurat.storageKey)||'[]');
+  updStats();
+  document.getElementById('subtitle').innerText=Object.keys(daftarSurat).length+' SURAT • LENGKAP';
+  for(let p=currentSurat.startPage;p<=currentSurat.endPage;p++){
+    let d=currentSurat.data[p];
+    let firstAyah = d ? d.ayats.find(a=>!a.text.includes('{tengah}')) : null;
+    let firstNo = firstAyah ? firstAyah.no : "-";
+    let firstText = firstAyah ? firstAyah.text : "";
+    let card=document.createElement('div');
+    card.className='card '+(p%2===0?'even':'odd')+(done.includes(p)?' done':'');
+    card.innerHTML=`<div class="check">✓</div><div class="card-top"><span>H${p}</span><span class="badge">A.${firstNo}</span></div><div class="card-arab">${firstText}</div>`;
+    card.onclick=()=>openModal(p);
+    let t;
+    card.addEventListener('touchstart',()=>{t=setTimeout(()=>{toggleDone(p,card);if(navigator.vibrate)navigator.vibrate(40);},650);});
+    card.addEventListener('touchend',()=>clearTimeout(t));
+    card.addEventListener('contextmenu',e=>{e.preventDefault();toggleDone(p,card);});
+    grid.appendChild(card);
+  }
+}
+function toggleDone(p,card){if(done.includes(p)){done=done.filter(x=>x!==p);card.classList.remove('done');}else{done.push(p);card.classList.add('done');}save();}
+function renderList(p){
+  let d=currentSurat.data[p];if(!d)return;
+  let list=document.getElementById('modalAyahList');list.innerHTML='';
+  let atas=0,bawah=0,ketemu=false;
+  d.ayats.forEach(a=>{ if(a.text.includes('{tengah}')){ketemu=true;return;} if(!ketemu) atas++; else bawah++; });
+  let hasT=d.ayats.some(a=>a.text.includes('{tengah}'));
+  let real=d.ayats.filter(a=>!a.text.includes('{tengah}'));
+  let autoIdx = !hasT && real.length>3 ? 3 : -1;
+  window._splitInfo={atas:hasT?atas:(autoIdx>0?autoIdx:real.length), bawah:hasT?bawah:(real.length-autoIdx), hasTengah:hasT};
+
+  let cnt=0;
+  d.ayats.forEach(it=>{
+    if(it.text.includes('{tengah}')){
+      let sep=document.createElement('div');sep.className='sep';
+      sep.innerHTML=`<div class="sep-line"></div><span class="sep-text">NDUWUR ${atas} • NGISOR ${bawah}</span><div class="sep-line"></div>`;
+      list.appendChild(sep);return;
+    }
+    let li=document.createElement('div');li.className='item '+(p%2===0?'even':'odd');
+    li.innerHTML=`<span class="arab">${it.text}</span><span class="num">${it.no}</span>`;
+    li.onclick=()=>openFullAyah(it.no,it.text);
+    list.appendChild(li);cnt++;
+    if(!hasT && cnt===3 && real.length>3){
+      let sep=document.createElement('div');sep.className='sep';
+      sep.innerHTML=`<div class="sep-line"></div><span class="sep-text">✦ TENGAH OTOMATIS ✦ 3↑ ${real.length-3}↓</span><div class="sep-line"></div>`;
+      list.appendChild(sep);
+    }
+  });
+}
+function openModal(p){
+  currentPage=p;
+  let d=currentSurat.data[p];if(!d)return;
+  let real=d.ayats.filter(a=>!a.text.includes('{tengah}'));
+  document.getElementById('modalTitle').innerText='Halaman '+p+(p%2===0?' • Kiri':' • Kanan');
+  renderList(p);
+  let sp=window._splitInfo;
+  document.getElementById('modalSub').innerText=`Ayat ${real[0]?.no||''} - ${real[real.length-1]?.no||''} (${real.length} ayat)`;
+  document.getElementById('modalSplit').innerHTML=`<span class="badge-split badge-up">${sp.atas}</span><span class="badge-split badge-down">${sp.bawah}</span>`+(sp.hasTengah?'':'<span style="font-size:9px;opacity:.6;align-self:center">otomatis</span>');
+  document.getElementById('detailModal').classList.add('show');
+}
+function closeModal(){document.getElementById('detailModal').classList.remove('show');}
+function navPage(dir){let np=currentPage+dir;if(np<currentSurat.startPage||np>currentSurat.endPage)return;openModal(np);currentPage=np;}
+let transCache={};let transVisible=false;
+async function toggleTrans(){
+ let box=document.getElementById('transBox');let btn=document.getElementById('transBtn');let txt=document.getElementById('transText');
+ if(transVisible){box.style.display='none';transVisible=false;btn.innerText='📖 Terjemahan';return;}
+ box.style.display='block';transVisible=true;btn.innerText='🙈 Sembunyikan';
+ let key=currentSurat.nama+'_'+currentFullNo;
+ if(transCache[key]){txt.innerText=transCache[key];return;}
+ if(typeof terjemahData!=='undefined' && terjemahData[activeKey] && terjemahData[activeKey][currentFullNo]){
+   txt.innerText=terjemahData[activeKey][currentFullNo];
+   transCache[key]=terjemahData[activeKey][currentFullNo];
+   return;
+ }
+ txt.innerText='⏳ Memuat terjemahan...';
+ try{
+  let surahMap={"baqarah":2,"aliimron":3,"annisa":4};
+  let surahNo=surahMap[activeKey]||2;
+  let res=await fetch(`https://api.quran.com/api/v4/verses/by_key/${surahNo}:${currentFullNo}?language=id&translations=33&text_type=translation`);
+  let data=await res.json();
+  let trans=data.translations?.[0]?.text||'';
+  if(trans){trans=trans.replace(/<[^>]*>/g,'');transCache[key]=trans;txt.innerText=trans;}
+  else throw 'no';
+ }catch(e){txt.innerText='Gagal load online. Tambahkan terjemah.js untuk mode offline Jo.';}
+}
+
+let currentFontSize = 32;
+function openFullAyah(no,shortText){
+  currentFullNo=no;
+  currentFontSize=32;
+  document.getElementById('fullArabic').style.fontSize = currentFontSize + 'px';
+  document.getElementById('fullBodyScroll').scrollTop = 0;
+  updateFullDisplay(no,shortText);
+  document.getElementById('ayahFullModal').classList.add('show');
+  document.getElementById('transBox').style.display='none';transVisible=false;document.getElementById('transBtn').innerText='📖 Terjemahan';
+}
+function updateFullDisplay(no,shortText){
+  let full=(currentSurat.full&&currentSurat.full[no]&&currentSurat.full[no].length>5)?currentSurat.full[no]:shortText;
+  document.getElementById('fullTitle').innerText=currentSurat.nama+' : '+no;
+  document.getElementById('fullArabic').innerText=full;
+  let pg=Object.keys(currentSurat.data).find(k=>currentSurat.data[k].ayats.some(a=>a.no===no))||'-';
+  document.getElementById('fullSubHeader').innerText='Halaman '+pg+' • Ayat '+no;
+}
+function navAyah(dir){let nn=currentFullNo+dir;let found="";let ok=false;for(let k in currentSurat.data){let f=currentSurat.data[k].ayats.find(a=>a.no===nn);if(f){found=f.text;ok=true;break;}}if(!ok)return;currentFullNo=nn;document.getElementById('fullBodyScroll').scrollTop = 0;updateFullDisplay(nn,found);document.getElementById('transBox').style.display='none';transVisible=false;document.getElementById('transBtn').innerText='📖 Terjemahan';}
+function closeFullModal(){document.getElementById('ayahFullModal').classList.remove('show');}
+function copyAyah(){let t=document.getElementById('fullArabic').innerText;let tr=document.getElementById('transText').innerText;let box=document.getElementById('transBox');let full=t;if(box.style.display!=='none'){full=t+"\n\nTerjemahan:\n"+tr;}navigator.clipboard.writeText(full).then(()=>alert('Ayat '+currentFullNo+' disalin Jo!'));}
+
+let initialPinchDistance = null;
+let fx = 0;
+const minFontSize = 20;
+const maxFontSize = 64;
+const fullBodyEl = document.getElementById('ayahFullContent');
+
+fullBodyEl.addEventListener('touchstart', e => {
+  if(e.touches.length === 2){
+    initialPinchDistance = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+  } else if(e.touches.length === 1){
+    fx = e.touches[0].clientX;
+  }
+},{passive:true});
+
+fullBodyEl.addEventListener('touchmove', e => {
+  if(e.touches.length === 2 && initialPinchDistance !== null){
+    let currentDistance = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+    let diff = currentDistance - initialPinchDistance;
+    if(Math.abs(diff) > 10){
+      currentFontSize = Math.min(maxFontSize, Math.max(minFontSize, currentFontSize + (diff > 0 ? 1 : -1)));
+      document.getElementById('fullArabic').style.fontSize = currentFontSize + 'px';
+      initialPinchDistance = currentDistance;
+    }
+  }
+},{passive:true});
+
+fullBodyEl.addEventListener('touchend', e => {
+  if(e.touches.length < 2) initialPinchDistance = null;
+  if(e.changedTouches.length === 1 && initialPinchDistance === null){
+    let dx = e.changedTouches[0].clientX - fx;
+    if(Math.abs(dx) > 70){
+      if(dx < 0) navAyah(-1);
+      else navAyah(1);
+    }
+  }
+},{passive:true});
+
+let sx=0;document.getElementById('modalContent').addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+document.getElementById('modalContent').addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>60){if(dx<0)navPage(-1);else navPage(1);}},{passive:true});
+
+document.getElementById('detailModal').addEventListener('click',e=>{if(e.target.id==='detailModal')closeModal();});
+document.getElementById('ayahFullModal').addEventListener('click',e=>{if(e.target.id==='ayahFullModal')closeFullModal();});
+autoDetect();
+</script>
+<script src="terjemah.js"></script>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}
+</script>
+</body>
 </html>
